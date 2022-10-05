@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+       body {
+        background: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.jj20.com%2Fup%2Fallimg%2F1011%2F01221H11102%2F1F122211102-10.jpg&refer=http%3A%2F%2Fpic.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1667537837&t=6be14b5500aaf333a9c0cc3ea5866bfa);
+        background-size:100% ;
+      }
+      table {
+        width: 800px;
+        margin: 20px auto;
+        border-collapse: collapse;
+      }
+
+      table thead tr {
+        background-color: #31c26c;
+        color: #fff;
+      }
+
+      table tbody {
+        color: #444;
+      }
+
+      table tbody tr:nth-child(odd) {
+        background-color: #ddd;
+      }
+
+      table tbody tr:nth-child(even) {
+        background-color: #eee;
+      }
+
+      table tr td,
+      th {
+        padding: 10px;
+        text-align: center;
+      }
+
+      .head {
+        font-weight: bold;
+      }
+
+      a {
+        text-decoration: none;
+        color: #444;
+        font-size: 14px;
+      }
+
+      .addBox {
+        margin: 10px auto;
+        width: 800px;
+      }
+
+      .addBox h2 {
+        text-align: center;
+      }
+
+      .info {
+        width: 900px;
+        margin: 50px auto;
+        text-align: center;
+      }
+
+      .info input,
+      .info select {
+        width: 80px;
+        height: 27px;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid #b8daff;
+        padding-left: 5px;
+        box-sizing: border-box;
+        margin-right: 15px;
+      }
+
+      .info button {
+        width: 60px;
+        height: 27px;
+        background-color: #004085;
+        outline: none;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .info .age {
+        width: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="addBox info">
+      <h2>新增学员</h2>
+      姓名：<input type="text" class="uname" name="uname" /> 年龄：<input type="text" class="age" name="age" />
+      性别:
+      <select name="gender" class="gender" name="gender">
+        <option value="男">男</option>
+        <option value="女">女</option>
+      </select>
+      薪资：<input type="text" class="salary" name="salary" /> 就业城市：<select class="city" name="city">
+        <option value="深圳">深圳</option>
+        <option value="广州">广州</option>
+        <option value="北京">北京</option>
+        <option value="上海">上海</option>
+        <option value="东莞">东莞</option>
+        <option value="珠海">珠海</option>
+        <option value="长沙">长沙</option>
+      </select>
+      <button class="add">录入</button>
+    </div>
+    <table id="stuTable">
+      <caption>
+        <h1>就业龙虎榜</h1>
+      </caption>
+      <thead>
+        <tr>
+          <th>学号</th>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>薪资</th>
+          <th>就业城市</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr>
+                <td>1</td>
+                <td>邹成</td>
+                <td>23</td>
+                <td>男</td>
+                <td>12000</td>
+                <td>深圳</td>
+                <td>
+                    <a href='javascript:delStu(1)'>删除</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>邹成</td>
+                <td>23</td>
+                <td>男</td>
+                <td>12000</td>
+                <td>深圳</td>
+                <td>
+                    <a href='javascript:delStu(2)'>删除</a>
+                </td>
+            </tr> -->
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+
+    <script>
+      const students = [
+        { stuId: 1, name: "邹成", age: 23, gender: "男", salary: 12000, city: "深圳" },
+        { stuId: 2, name: "郭婧", age: 21, gender: "女", salary: 13000, city: "珠海" },
+        { stuId: 3, name: "王杰", age: 24, gender: "男", salary: 11000, city: "东莞" },
+        { stuId: 4, name: "周贝", age: 23, gender: "女", salary: 11500, city: "长沙" },
+        { stuId: 5, name: "刘青山", age: 30, gender: "男", salary: 16000, city: "深圳" },
+      ]
+      const tbody = document.querySelector("tbody")
+      arr()
+      const add = document.querySelector(".add")
+
+      const stuId = 0
+      const txtname = document.querySelector(".uname")
+      const txtage = document.querySelector(".age")
+      const txtgender = document.querySelector(".gender")
+      const txtsalary = document.querySelector(".salary")
+      const txtscity = document.querySelector(".city")
+
+      add.addEventListener("click", function () {
+        if (txtname.value.trim() == "" || txtage.value.trim() == "" || txtsalary.value.trim() == "") {
+          return alert("请重新输入")
+        }
+        tbody.innerHTML = ""
+        const newstudent = {
+          stuId: students[students.length - 1].stuId + 1,
+          name: txtname.value.trim(),
+          age: txtage.value.trim(),
+          gender: txtgender.value,
+          salary: txtsalary.value,
+          city: txtscity.value.trim(),
+        }
+        console.log(newstudent)
+        students.push(newstudent)
+        arr()
+        txtname.value = ""
+        txtage.value = ""
+        txtgender.value = "男"
+        txtsalary.value = ""
+        txtscity.value = "深圳"
+      })
+
+      tbody.addEventListener('click',function(e){
+        if(e.target.tagName=="A"){
+          tbody.removeChild(e.target.parentNode.parentNode)
+        }
+      })
+
+
+      
+
+
+      function arr() {
+        for (let i = 0; i < students.length; i++) {
+          const tr = document.createElement("tr")
+          tr.innerHTML = `<td>${students[i].stuId}</td>
+                <td>${students[i].name}</td>
+                <td>${students[i].age}</td>
+                <td>${students[i].gender}</td>
+                <td>${students[i].salary}</td>
+                <td>${students[i].city}</td>
+                <td>
+                    <a href='javascript:delStu(2)'>删除</a>
+                </td>`
+
+          tbody.appendChild(tr)
+        }
+      }
+    </script>
+  </body>
+</html>
